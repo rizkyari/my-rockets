@@ -3,6 +3,8 @@
     <h1 class="main-title" :style="{ color: colors.space.title }">&#x1F680; My Rockets</h1>
     <v-row justify="center" class="mt-5">
       <v-col cols="12" md="8">
+        <!-- <RocketSearch/> -->
+        <RocketFilterForm/>
         <ErrorState v-if="store.error" :onRetry="store.loadRockets"/>
 
         <LoadingState
@@ -11,7 +13,7 @@
 
         <v-row v-else>
           <v-col
-            v-for="rocket in store.rockets"
+            v-for="rocket in store.filteredRockets"
             :key="rocket.id"
             cols="12"
             sm="6"
@@ -33,6 +35,8 @@ import { colors } from '@/assets/color';
 import RocketCard from "@/components/rockets/RocketCard.vue";
 import LoadingState from "@/components/ui/LoadingState.vue";
 import ErrorState from "@/components/ui/ErrorState.vue";
+import RocketSearch from "@/components/rockets/RocketSearch.vue";
+import RocketFilterForm from "@/components/rockets/RocketFilterForm.vue";
 
 const store = useRocketStore()
 onMounted(() => {
