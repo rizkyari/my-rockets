@@ -1,6 +1,6 @@
 <template>
   <v-container class="text-center my-10">
-    <h1 class="main-title" :style="{ color: colors.space.title }">&#x1F680; My Rockets &#128640;</h1>
+    <h1 class="main-title" :style="{ color: colors.space.title }">&#x1F680; My Rockets</h1>
     <v-row justify="center" class="mt-5">
       <v-col cols="12" md="8">
         <ErrorState v-if="store.error" :onRetry="store.loadRockets"/>
