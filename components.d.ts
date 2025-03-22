@@ -13,6 +13,8 @@ declare module 'vue' {
     LoadingState: typeof import('./src/components/ui/LoadingState.vue')['default']
     RocketCard: typeof import('./src/components/rockets/RocketCard.vue')['default']
     RocketDetail: typeof import('./src/components/rockets/RocketDetail.vue')['default']
+    RocketFilterForm: typeof import('./src/components/rockets/RocketFilterForm.vue')['default']
+    RocketSearch: typeof import('./src/components/rockets/RocketSearch.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
