@@ -7,3 +7,8 @@ export async function fetchRockets(): Promise<Rocket[]> {
     const response = await axios.get(`${API_URL}/rockets`)
     return response.data
 }
+
+export async function fetchRocketById(id: string): Promise<Rocket> {
+    const res = await axios.get(`${API_URL}/rockets/${id}`)
+    return res.data
+}

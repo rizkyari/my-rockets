@@ -8,9 +8,9 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     ErrorState: typeof import('./src/components/ui/ErrorState.vue')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     LoadingState: typeof import('./src/components/ui/LoadingState.vue')['default']
     RocketCard: typeof import('./src/components/rockets/RocketCard.vue')['default']
+    RocketDetail: typeof import('./src/components/rockets/RocketDetail.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
