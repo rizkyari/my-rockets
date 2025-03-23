@@ -1,13 +1,24 @@
 <template>
     <v-card class="pa-4" :style="{backgroundColor: colors.space.card}">
-        <v-btn
-            v-if="isCustomRocket"
-            color="error"
-            class="my-4"
-            @click="confirmDialog = true"
-        >
-            Delete Rocket
-        </v-btn>
+        
+        <div>
+            <v-btn
+                v-if="isCustomRocket"
+                color="primary"
+                class="my-4 me-4"
+                @click="editDialog = true"
+            >
+                Edit Rocket
+            </v-btn>
+            <v-btn
+                v-if="isCustomRocket"
+                color="error"
+                class="my-4"
+                @click="confirmDialog = true"
+            >
+                Delete Rocket
+            </v-btn>
+        </div>
         <v-img :src="rocket.flickr_images[0]" height="300px" cover class="mb-4"/>
         <h2 class="text-h4 mb-2" :style="{color: colors.space.title}">
             {{ rocket.name }}
@@ -34,6 +45,20 @@
         @confirm="deleteThisRocket"
         @cancel="confirmDialog = false"
     />
+    <EditRocketModal
+        v-if="store.selectedRocket"
+        v-model="editDialog"
+        :initialData="store.selectedRocket"
+        @save="handleEditRocket"
+    />
+    <v-snackbar
+        v-model="showSnackbar"
+        timeout="3000"
+        color="success"
+        location="top right"
+    >
+        Rocket updated successfully!
+    </v-snackbar>
 </template>
 
 <script lang="ts" setup>
@@ -44,13 +69,15 @@ import type { Rocket } from '@/types/rocket'
 import { colors } from '@/assets/color'
 
 import DeleteConfirmationDialog from '../ui/DeleteConfirmationDialog.vue';
-import router from '@/router';
+import EditRocketModal from './EditRocketModal.vue';
 
 defineProps<{ rocket: Rocket}>()
 const store = useRocketStore()
-const roter = useRouter()
+const router = useRouter()
 
 const confirmDialog = ref(false)
+const editDialog = ref(false)
+const showSnackbar = ref(false)
 
 const isCustomRocket = computed(() =>
     store.customRockets.some(r=> r.id === store.selectedRocket?.id)
@@ -61,5 +88,10 @@ const deleteThisRocket = () => {
     store.deleteRocket(store.selectedRocket.id)
     confirmDialog.value = false
     router.push('/')
+}
+
+const handleEditRocket = (updated: Rocket) => {
+  store.updateRocket(updated)
+  showSnackbar.value = true
 }
 </script>

@@ -154,6 +154,22 @@ export const useRocketStore = defineStore('rockets', () => {
         }
     }
 
+    const updateRocket = (updated: Rocket) => {
+        const index = customRockets.value.findIndex(r => r.id === updated.id)
+        if (index !== -1) {
+          customRockets.value[index] = { ...updated }
+      
+          const filteredIndex = filteredRockets.value.findIndex(r => r.id === updated.id)
+          if (filteredIndex !== -1) {
+            filteredRockets.value[filteredIndex] = { ...updated }
+          }
+
+          if (selectedRocket.value?.id === updated.id) {
+            selectedRocket.value = { ...updated }
+          }
+        }
+    }
+
     return {
         rockets,
         loading,
@@ -171,5 +187,6 @@ export const useRocketStore = defineStore('rockets', () => {
         applyFilters,
         addRocket,
         deleteRocket,
+        updateRocket,
     }
 })
