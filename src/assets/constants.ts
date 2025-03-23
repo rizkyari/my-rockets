@@ -1,0 +1,1 @@
+export const fallbackImage = 'https://img.icons8.com/clouds/500/rocket.png'

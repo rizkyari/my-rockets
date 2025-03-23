@@ -2,12 +2,12 @@
   <router-link :to="`/rocket/${rocket.id}`" style="text-decoration: none;">
     <v-card 
     class="rocket-card d-flex flex-column h-100"
-    :style="{ backgroundColor: colors.space.card }"
+    :style="{ backgroundColor: cardColor }"
     hover
     >
-      <v-img :src="rocket.flickr_images[0]" height="200px" cover />
+      <v-img :src="rocket.flickr_images[0] || fallbackImage" height="200px" cover />
 
-      <v-card-title class="text-wrap" :style="{ color: colors.space.title }">
+      <v-card-title class="text-wrap" :style="{ color: titleColor }">
         {{ rocket.name }}
       </v-card-title>
 
@@ -31,10 +31,24 @@
 </template>
 
 <script setup lang="ts">
+import { useTheme } from 'vuetify'
+import { computed } from 'vue'
 import type { Rocket } from '@/types/rocket';
 import { colors } from '@/assets/color';
+import { fallbackImage } from '@/assets/constants'
 
 defineProps<{ rocket: Rocket }>()
+const theme = useTheme()
+
+const isDark = computed(() => theme.global.name.value === 'dark')
+
+const cardColor = computed(() =>
+  isDark.value ? colors.space.card : colors.light.card
+)
+
+const titleColor = computed(() =>
+  isDark.value ? colors.space.title : colors.light.title
+)
 </script>
 
 <style scoped>
@@ -64,6 +78,6 @@ defineProps<{ rocket: Rocket }>()
 
 .rocket-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 6px 20px rgba(144, 202, 249, 0.3); /* soft blue glow */
+  box-shadow: 0 6px 20px rgba(144, 202, 249, 0.3);
 }
 </style>
