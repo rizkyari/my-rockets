@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, ref, reactive } from 'vue'
 import type { Rocket } from '@/types/rocket'
+import { v4 as uuidv4 } from 'uuid'
 import { fetchRockets, fetchRocketById, queryRocketsByName, queryRocketsAdvanced } from '@/services/rocketService'
 
 export const useRocketStore = defineStore('rockets', () => {
@@ -10,15 +11,7 @@ export const useRocketStore = defineStore('rockets', () => {
     const error = ref(false)
     const searchTerm = ref('')
     const filteredRockets = ref<Rocket[]>([])
-    // const filters = ref<{
-    //     searchTerm: string
-    //     status: 'All' | 'Active' | 'Inactive'
-    //     country: string
-    // }>({
-    //     searchTerm: '',
-    //     status: 'All',
-    //     country: 'All',
-    // })
+    const customRockets = ref<Rocket[]>([])
     const filters = reactive({
         searchTerm: '',
         status: 'All' as 'All' | 'Active' | 'Inactive',
@@ -42,14 +35,21 @@ export const useRocketStore = defineStore('rockets', () => {
     const searchRockets = async () => {
         const term = searchTerm.value.trim()
         if (!term) {
-            filteredRockets.value = rockets.value
+            filteredRockets.value = [...customRockets.value, ...rockets.value]
             return
         }
 
         try {
             loading.value = true
             error.value = false
-            filteredRockets.value = await queryRocketsByName(searchTerm.value)
+            const apiResults = await queryRocketsByName(searchTerm.value)
+
+            filteredRockets.value = [
+                ...customRockets.value.filter((rocket) =>
+                rocket.name.toLowerCase().includes(term.toLowerCase())
+            ),
+            ...apiResults
+      ]    
         } catch (e) {
             error.value = true
         } finally {
@@ -57,17 +57,36 @@ export const useRocketStore = defineStore('rockets', () => {
         }
     }
 
-    const getRocketById = async (id:string) => {
+    // const getRocketById = async (id:string) => {
+    //     loading.value = true
+    //     error.value = false
+    //     try {
+    //         selectedRocket.value = await fetchRocketById(id)
+    //     } catch(e) {
+    //         error.value = true
+    //         console.error(e)
+    //         selectedRocket.value = null
+    //     } finally {
+    //         loading.value = false
+    //     }
+    // }
+    const getRocketById = async (id: string) => {
         loading.value = true
         error.value = false
         try {
-            selectedRocket.value = await fetchRocketById(id)
-        } catch(e) {
-            error.value = true
-            console.error(e)
-            selectedRocket.value = null
+          const local = customRockets.value.find((r) => r.id === id)
+          if (local) {
+            selectedRocket.value = local
+            return
+          }
+    
+          selectedRocket.value = await fetchRocketById(id)
+        } catch (e) {
+          error.value = true
+          console.error(e)
+          selectedRocket.value = null
         } finally {
-            loading.value = false
+          loading.value = false
         }
     }
 
@@ -75,7 +94,26 @@ export const useRocketStore = defineStore('rockets', () => {
         try {
           loading.value = true
           error.value = false
-          filteredRockets.value = await queryRocketsAdvanced(filters)
+    
+          const apiResults = await queryRocketsAdvanced(filters)
+    
+          const matchesCustom = (rocket: Rocket) => {
+            const matchName =
+              !filters.searchTerm.trim() ||
+              rocket.name.toLowerCase().includes(filters.searchTerm.trim().toLowerCase())
+            const matchStatus =
+              filters.status === 'All' ||
+              (filters.status === 'Active' && rocket.active) ||
+              (filters.status === 'Inactive' && !rocket.active)
+            const matchCountry =
+              filters.country === 'All' || rocket.country === filters.country
+    
+            return matchName && matchStatus && matchCountry
+          }
+    
+          const filteredCustoms = customRockets.value.filter(matchesCustom)
+    
+          filteredRockets.value = [...filteredCustoms, ...apiResults]
         } catch (e) {
           error.value = true
           console.error(e)
@@ -83,16 +121,16 @@ export const useRocketStore = defineStore('rockets', () => {
           loading.value = false
         }
     }
-
-    const clearFilters = async () => {
+    
+      const clearFilters = async () => {
         filters.searchTerm = ''
         filters.status = 'All'
         filters.country = 'All'
-      
+    
         try {
           loading.value = true
           error.value = false
-          filteredRockets.value = await queryRocketsAdvanced({})
+          filteredRockets.value = [...customRockets.value, ...(await queryRocketsAdvanced({}))]
         } catch (e) {
           error.value = true
           console.error(e)
@@ -109,6 +147,15 @@ export const useRocketStore = defineStore('rockets', () => {
         )
     })
 
+    const addRocket = (data: Omit<Rocket, 'id'>) => {
+        const newRocket: Rocket = {
+          ...data,
+          id: uuidv4(),
+        }
+        customRockets.value.push(newRocket)
+        filteredRockets.value.unshift(newRocket)
+    }
+
     return {
         rockets,
         loading,
@@ -118,10 +165,12 @@ export const useRocketStore = defineStore('rockets', () => {
         searchTerm,
         filters,
         hasActiveFilters,
+        customRockets,
         clearFilters,
         loadRockets,
         getRocketById,
         searchRockets,
         applyFilters,
+        addRocket,
     }
 })

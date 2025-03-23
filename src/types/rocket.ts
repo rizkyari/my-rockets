@@ -6,4 +6,5 @@ export interface Rocket {
     cost_per_launch: number
     country: string
     first_flight:string
+    active:boolean
 }

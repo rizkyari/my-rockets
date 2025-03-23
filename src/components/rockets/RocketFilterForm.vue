@@ -32,24 +32,30 @@
           Search
         </v-btn>
         <v-btn
-  v-if="store.hasActiveFilters"
-  color="secondary"
-  class="ml-2"
-  @click="store.clearFilters"
->
-  Clear Filters
-</v-btn>
+          v-if="store.hasActiveFilters"
+          color="secondary"
+          class="ml-2"
+          @click="store.clearFilters"
+        >
+          Clear Filters
+        </v-btn>
       </v-col>
     </v-row>
-  </template>
+</template>
   
-  <script setup lang="ts">
-  import { useRocketStore } from '@/store/rocketStore'
+<script setup lang="ts">
+import { useRocketStore } from '@/store/rocketStore'
+import { computed } from 'vue'
+
+const store = useRocketStore()
+const filters = store.filters
   
-  const store = useRocketStore()
-  const filters = store.filters
-  
-  // You can make this dynamic by extracting from rocket list
-  const countryOptions = ['All', 'United States', 'Republic of the Marshall Islands']
-  </script>
+const countryOptions = computed(() => {
+  const countries = new Set<string>()
+  store.filteredRockets.forEach((rocket) => {
+    if (rocket.country) countries.add(rocket.country)
+  })
+  return ['All', ...Array.from(countries)]
+})
+</script>
   

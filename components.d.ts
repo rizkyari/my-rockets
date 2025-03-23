@@ -14,6 +14,7 @@ declare module 'vue' {
     RocketCard: typeof import('./src/components/rockets/RocketCard.vue')['default']
     RocketDetail: typeof import('./src/components/rockets/RocketDetail.vue')['default']
     RocketFilterForm: typeof import('./src/components/rockets/RocketFilterForm.vue')['default']
+    RocketForm: typeof import('./src/components/rockets/RocketForm.vue')['default']
     RocketSearch: typeof import('./src/components/rockets/RocketSearch.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

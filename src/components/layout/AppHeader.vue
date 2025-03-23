@@ -9,6 +9,9 @@
                 <v-btn to="/" text>
                     Home
                 </v-btn>
+                <v-btn to="/rocket/create" text>
+                    + Create
+                </v-btn>
             </div>
 
             <v-app-bar-nav-icon class="d-sm-none" @click="drawer = !drawer"/>
@@ -24,6 +27,9 @@
         <v-list>
             <v-list-item to="/" @click="drawer = false">
                 <v-list-item-title>Home</v-list-item-title>
+            </v-list-item>
+            <v-list-item to="/rocket/create" @click="drawer = false">
+                <v-list-item-title>+ Create</v-list-item-title>
             </v-list-item>
         </v-list>
     </v-navigation-drawer>
