@@ -1,26 +1,66 @@
-# Allo Bank Frontend Technical Assignment
+# 🚀 MyRocket
 
-In this assignment, you’re assigned to create a website that displays rockets. This website only has two screens: rocket list screen and rocket detail screen. Here are the requirements:
+A responsive Vue 3 + Vuetify app that displays rockets using the [SpaceX API](https://github.com/r-spacex/SpaceX-API).
 
-### Functional Requirements
-- As a user, I want to see a list of rockets in the rocket list screen (Show each rocket image, rocket name, and rocket description)
-- As a user, I want to be able to filter the rockets in the rocket list screen
-- As a user, I want to be able to add the new rocket in the rocket list screen
-- As a user, I want to be able to see the rocket detail by clicking a rocket in the rocket list screen (Show rocket image, rocket name, rocket description, cost per launch, country, first flight)
+---
 
-### Non-Functional Requirements
-- Use Space-X API (https://github.com/r-spacex/SpaceX-API) for getting the rocket data
-- Implement routers
-- Implement state management
-- Implement lifecycles
-- Create components based will be + points
-- UI states (Loading, Fail/Retry, and Success)
-- Show loading when waiting response from API
-- If an error occurred, user can retry by pressing retry button
-- Show result when get response from API
+## 🌟 Features
 
-### Nice to have characteristics
-Responsive design
-You don’t need to worry about the detailed design, we’re not interested in your artistic prowess (for now), put your efforts on creating a readable/clean/maintainable source code.
+- 🚀 View a list of rockets with image, name, and description
+- 🔍 Search and filter rockets by status, country, and name
+- ➕ Add new rockets (locally)
+- ✏️ Edit and 🗑️ delete custom rockets (locally)
+- 📄 View detailed info: cost, country, description, image, first flight
+- 🌗 Toggle between dark and light themes
+- 🔁 Loading, error, and retry UI states
+- 🧭 404 not found page
+- 📱 Fully responsive design
+- 🧠 State management using Pinia
+- 🧪 Clean & maintainable codebase using Vue 3 Composition API
 
-Good luck with your assignment! Don't hesitate to contact us if you have any questions about the assignment process.
+---
+
+## 🛠 Tech Stack
+
+- **Vue 3** with Composition API
+- **Vuetify 3** for UI components
+- **Pinia** for state management
+- **Vue Router (auto-routes)** for navigation
+- **TypeScript**
+- **Vite** as the build tool
+
+---
+
+## 📦 Project Setup
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+```
+
+## 📁 Folder Structure
+
+```bash
+src/
+├─ assets/              # Colors, images, constants
+├─ components/          # Reusable UI and rocket components
+├─ pages/               # Auto-routed views (list, detail, create)
+├─ plugins/             # Vuetify, router
+├─ router/              # Auto-routing config
+├─ services/            # API call functions
+├─ store/               # Pinia stores
+├─ styles/              # Global styles if any
+└─ main.ts              # Entry point
+```
+
+## 🧑‍🚀 Author
+
+Developed by Rizky Ari
+
+[Linkedin](https://www.linkedin.com/in/rizkyarihar/) | [GitHub](https://github.com/rizkyari)
