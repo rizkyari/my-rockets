@@ -19,7 +19,7 @@
                 Delete Rocket
             </v-btn>
         </div>
-        <v-img :src="rocket.flickr_images[0]" height="300px" cover class="mb-4"/>
+        <v-img :src="rocket.flickr_images[0] || fallbackImage" height="300px" cover class="mb-4"/>
         <h2 class="text-h4 mb-2" :style="{color: colors.space.title}">
             {{ rocket.name }}
         </h2>
@@ -67,6 +67,7 @@ import { useRouter } from 'vue-router';
 import { useRocketStore } from '@/store/rocketStore';
 import type { Rocket } from '@/types/rocket'
 import { colors } from '@/assets/color'
+import { fallbackImage } from '@/assets/constants'
 
 import DeleteConfirmationDialog from '../ui/DeleteConfirmationDialog.vue';
 import EditRocketModal from './EditRocketModal.vue';
