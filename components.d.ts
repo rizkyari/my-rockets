@@ -10,6 +10,7 @@ declare module 'vue' {
     AppFooter: typeof import('./src/components/layout/AppFooter.vue')['default']
     AppHeader: typeof import('./src/components/layout/AppHeader.vue')['default']
     DeleteConfirmationDialog: typeof import('./src/components/ui/DeleteConfirmationDialog.vue')['default']
+    EditRocketModal: typeof import('./src/components/rockets/EditRocketModal.vue')['default']
     ErrorState: typeof import('./src/components/ui/ErrorState.vue')['default']
     LoadingState: typeof import('./src/components/ui/LoadingState.vue')['default']
     RocketCard: typeof import('./src/components/rockets/RocketCard.vue')['default']

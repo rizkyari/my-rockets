@@ -24,15 +24,19 @@ const emit = defineEmits<{
   
 const formRef = ref<any>(null)
 
+const props = defineProps<{
+  initialData?: Omit<Rocket, 'id'>
+}>()
+
 const form = reactive<Omit<Rocket, 'id'>>({
-    name: '',
-    description: '',
-    country: '',
-    cost_per_launch: 0,
-    first_flight: '',
-    flickr_images: [''],
-    active: true
-  })
+    name: props.initialData?.name ?? '',
+    description: props.initialData?.description ?? '',
+    country: props.initialData?.country ?? '',
+    cost_per_launch: props.initialData?.cost_per_launch ?? 0,
+    first_flight: props.initialData?.first_flight ?? '',
+    flickr_images: props.initialData?.flickr_images ?? [''],
+    active: props.initialData?.active ?? true,
+})
 
 const submit = async () => {
     if (!formRef.value) return
