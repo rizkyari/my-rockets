@@ -1,8 +1,8 @@
 <template>
     <v-form ref="formRef" @submit.prevent="submit">
         <v-text-field v-model="form.name" label="Rocket Name" :rules="[required]" />
-        <v-textarea v-model="form.description" label="Description" rows="3" required />
-        <v-text-field v-model="form.country" label="Country" required />
+        <v-textarea v-model="form.description" label="Description" rows="3" :rules="[required]" />
+        <v-text-field v-model="form.country" label="Country" :rules="[required]" />
         <v-text-field v-model="form.cost_per_launch" label="Cost per Launch ($)" type="number" :rules="[required, isNumber]" />
         <v-text-field v-model="form.first_flight" label="First Flight Date" type="date" :rules="[required, isDate]" />
         <v-text-field v-model="form.flickr_images[0]" label="Rocket Image URL" :rules="[required,isUrl]" />
@@ -41,8 +41,8 @@ const form = reactive<Omit<Rocket, 'id'>>({
 const submit = async () => {
     if (!formRef.value) return
 
-    const isValid = await formRef.value.validate()
-    if (!isValid) return
+    const { valid } = await formRef.value.validate()
+    if (!valid) return
 
     emit('submit', form)
 }
