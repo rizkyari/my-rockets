@@ -6,15 +6,15 @@
         </v-alert>
         <div v-else>
             <v-btn
-  prepend-icon="mdi-arrow-left"
-  color="primary"
-  variant="text"
-  class="mb-4"
-  @click="$router.push('/')"
->
-  Back to Home
-</v-btn>
-        <RocketDetailCard :rocket="store.selectedRocket"/>
+                prepend-icon="mdi-arrow-left"
+                color="primary"
+                variant="text"
+                class="mb-4"
+                @click="$router.push('/')"
+            >
+                Back to Home
+            </v-btn>
+            <RocketDetailCard :rocket="store.selectedRocket"/>
         </div>
     </v-container>
 </template>

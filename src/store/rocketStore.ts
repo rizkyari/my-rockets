@@ -57,19 +57,6 @@ export const useRocketStore = defineStore('rockets', () => {
         }
     }
 
-    // const getRocketById = async (id:string) => {
-    //     loading.value = true
-    //     error.value = false
-    //     try {
-    //         selectedRocket.value = await fetchRocketById(id)
-    //     } catch(e) {
-    //         error.value = true
-    //         console.error(e)
-    //         selectedRocket.value = null
-    //     } finally {
-    //         loading.value = false
-    //     }
-    // }
     const getRocketById = async (id: string) => {
         loading.value = true
         error.value = false
@@ -122,7 +109,7 @@ export const useRocketStore = defineStore('rockets', () => {
         }
     }
     
-      const clearFilters = async () => {
+    const clearFilters = async () => {
         filters.searchTerm = ''
         filters.status = 'All'
         filters.country = 'All'
@@ -153,7 +140,18 @@ export const useRocketStore = defineStore('rockets', () => {
           id: uuidv4(),
         }
         customRockets.value.push(newRocket)
-        filteredRockets.value.unshift(newRocket)
+        filteredRockets.value = [
+            newRocket,
+            ...filteredRockets.value.filter((r) => r.id !== newRocket.id)
+        ]
+    }
+
+    const deleteRocket = (id: string) => {
+        customRockets.value = customRockets.value.filter(r => r.id !== id)
+        filteredRockets.value = filteredRockets.value.filter(r => r.id !== id)
+        if(selectedRocket.value?.id === id) {
+            selectedRocket.value = null
+        }
     }
 
     return {
@@ -172,5 +170,6 @@ export const useRocketStore = defineStore('rockets', () => {
         searchRockets,
         applyFilters,
         addRocket,
+        deleteRocket,
     }
 })
